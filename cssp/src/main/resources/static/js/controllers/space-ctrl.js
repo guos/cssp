@@ -1,11 +1,11 @@
 /**
- * Alerts Controller
+ * space Controller
  */
 
 app.controller('SpaceCtrl', [ '$scope', '$http', 'ngDialog', SpaceCtrl ]);
 
 function SpaceCtrl($scope, $http, ngDialog) {
-
+// for left tree
 	$scope.treeOptions = {
 		nodeChildren : "children",
 		// dirSelectable : true,
@@ -21,7 +21,7 @@ function SpaceCtrl($scope, $http, ngDialog) {
 			labelSelected : "a8"
 		}
 	}
-
+// for target server tree
 	$scope.opts = {
 		multiSelection : true,
 		injectClasses : {
@@ -35,20 +35,6 @@ function SpaceCtrl($scope, $http, ngDialog) {
 			"labelSelected" : "c-labelSelected"
 		}
 	};
-	// $scope.dataForTheTree =
-	// [
-	// { "name" : "Joe", "age" : "21", "children" : [
-	// { "name" : "Smith", "age" : "42", "children" : [] },
-	// { "name" : "Gary", "age" : "21", "children" : [
-	// { "name" : "Jenifer", "age" : "23", "children" : [
-	// { "name" : "Dani", "age" : "32", "children" : [] },
-	// { "name" : "Max", "age" : "34", "children" : [] }
-	// ]}
-	// ]}
-	// ]},
-	// { "name" : "Albert", "age" : "33", "children" : [] },
-	// { "name" : "Ron", "age" : "29", "children" : [] }
-	// ];
 
 	// -----------write other info
 	$scope.loadTree = function(url,type) {
@@ -63,7 +49,7 @@ function SpaceCtrl($scope, $http, ngDialog) {
 		});
 	};
 
-	
+	//store the selected node on master
 	$scope.selectedNodes = [];
 	$scope.showSelected = function(node, selected) {
         console.dir("-------here----");
@@ -76,10 +62,11 @@ function SpaceCtrl($scope, $http, ngDialog) {
 			scope : $scope
 		});
 	};
+	//-------no use 
 	$scope.showSelectedNode = function(sel) {
 		console.dir("selected----");
 		console.dir(sel);
-		
+		//------TODO: in page-ctrl.js you can show the page content
 		$scope.selectedNode = sel;
 		ngDialog.open({
 			width : '70%',
@@ -88,11 +75,26 @@ function SpaceCtrl($scope, $http, ngDialog) {
 		});
 	};
 	
-	//
+	//-------follow function is real communicate with backend,need write some code.
 	$scope.loadSpace=function(master,slave){
 		//TODO: put the real data, master.server
-		 
+		console.dir(master.server);
+		console.dir(slave.server);
+		//also username,password, you can get use master.xxx, then send to backend
 		$scope.loadTree('http://localhost:8080/ui/space','M');
 		$scope.loadTree('http://localhost:8080/ui/space','S');
+	}
+	//find out the changes
+	$scope.compareChage=function(){
+		console.dir($scope.selectedNodes);
+		//TODO: you can send the selectedNodes info to the backend 
+	}
+	$scope.startSync=function(sync){
+		//---
+		console.dir(sync.method);
+		console.dir(sync.daily);//if daily have value,then we need consider store the value in db or somewhere then batch job
+		console.dir(sync.time);
+		console.dir($scope.selectedNodes);
+		//TODO: call backend, if selectedNodes is null, then means find all the changes 
 	}
 }
