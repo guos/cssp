@@ -1,433 +1,133 @@
 <!doctype html>
-<html>
+<html lang="en" data-ng-app="cssp">
 <head>
-    <title>Angular Tree</title>
-    <script src="js/3rd/jquery-2.2.2.js"></script>
-    <script src="js/3rd/angular.1.2.29.js"></script>
-    <script src="js/3rd/bootstrap.3.1.1.js"></script>
-    <script src="js/3rd/ui-bootstrap-tpls.0.11.2.js"></script>
-    <script src="js/3rd/prettify.1.0.1.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link  href="css/bootstrap.3.1.1.css" rel="stylesheet" type="text/css">
-    <link  href="css/prettify-style.css" rel="stylesheet" type="text/css">
+<title>CSSP AngularJS</title>
+<!-- STYLES -->
+<!-- build:css lib/css/main.min.css -->
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/rdash.min.css">
+<link rel="stylesheet" type="text/css" href="css/customer.css">
+<link rel="stylesheet" type="text/css" href="css/prettify-style.css">
+<link rel="stylesheet" type="text/css" href="css/tree-control.css">
+<link rel="stylesheet" type="text/css" href="css/tree-control-attribute.css">
+<link rel="stylesheet" type="text/css" href="css/ngDialog.min.css">
+<link rel="stylesheet" type="text/css" href="css/ngDialog-theme-default.min.css">
 
-    <script src="js/3rd/angular-tree-control.js"></script>
-    <script src="js/context-menu.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/tree-control.css">
-    <link rel="stylesheet" type="text/css" href="css/tree-control-attribute.css">
-    <style>
-        .header{padding-top: 50px; padding-bottom:50px; background-color: #444980;}
-        .head-container{width: 1140px; margin:auto;}
-        .header h1 {color: #fffffa; font-size: 60px}
-        .header h2 {color: #fffffa; font-size: 24px; font-style: normal}
-        .example-caption {color: #bbb; font-size: 12px}
-        .docs-body{width: 1140px; margin: auto auto 50px; }
-        .docs-footer{background-color: #F5F5F5; text-align: center; padding: 30px 0; border-top: #e5e5e5}
-        .tab-pane{background-color: #f8f8f8; border-right: 1px solid #ccc;border-left: 1px solid #ccc;border-bottom: 1px solid #ccc; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px }
-        .nav li.active a{background-color: #f8f8f8}
-        pre.code {border:none; background-color: #f8f8f8; padding: 10px; margin: 0; font-family: Consolas, 'Liberation Mono', Courier, monospace;}
-        .docs-sidenav { margin-top: 45px; margin-bottom: 0; }
-        .docs-sidenav > li > a {display: block; font-size: 13px; font-weight: 500; color: #999; padding: 4px 20px;}
-        .docs-sidenav > li.active > a {font-weight: 700; color: #563d7c; border-left: 2px solid #563d7c;padding-left: 18px;}
-        .docs-sidenav > li > a:hover {background-color: transparent; color: #563d7c; border-left: 1px solid #563d7c;padding-left: 19px;}
-        .type-hint-object {background:#999;}
-        .type-hint-boolean {background:rgb(18, 131, 39);}
-        .type-hint-function {background: rgb(36, 53, 131);}
-        .type-hint-number {background:rgb(189, 63, 66);}
-	.dropdown-menu li a.disabled { pointer-events: none; cursor: default; color:#bbb; }
-    </style>
+
+
+<!-- endbuild -->
+<!-- SCRIPTS -->
+<!-- build:js lib/js/main.min.js -->
+<script type="text/javascript" src="js/3rd/angular.min.js"></script>
+<!--  <script type="text/javascript" src="js/3rd/jquery.min.js"></script>-->
+<script type="text/javascript" src="js/3rd/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="js/3rd/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="js/3rd/angular-cookies.min.js"></script>
+<script type="text/javascript" src="js/3rd/prettify.1.0.1.js"></script>
+<script type="text/javascript" src="js/3rd/context-menu.js"></script>
+<script type="text/javascript" src="js/3rd/angular-tree-control.js"></script>
+<script type="text/javascript" src="js/3rd/lodash.min.js"></script>
+<script type="text/javascript" src="js/3rd/ngDialog.min.js"></script>
+<!--  <script type="text/javascript" src="js/3rd/restangular.min.js"></script>-->
+<!-- endbuild -->
+
 </head>
-<body ng-app="example">
-<div class="header">
-    <div class="head-container">
-        <h1>Angular Tree</h1>
-        <h2>The AngularJS tree component</h2>
-    </div>
-</div>
-<div class="row docs-body">
-<div class="col-md-9">
+<body data-ng-controller="MasterCtrl">
+	<div id="page-wrapper" data-ng-class="{'open': toggle}" data-ng-cloak>
 
+		<!-- Sidebar -->
+		<div id="sidebar-wrapper">
+			<ul class="sidebar">
+				<li class="sidebar-main"><a data-ng-click="toggleSidebar()">
+						Dashboard <span class="menu-icon glyphicon glyphicon-transfer"></span>
+				</a></li>
+				<li class="sidebar-title"><span>NAVIGATION</span></li>
+				<li class="sidebar-list"><a href="#">Dashboard <span
+						class="menu-icon fa fa-tachometer"></span></a></li>
+				<li class="sidebar-list"><a href="#/space">Space <span
+						class="menu-icon fa fa-table"></span></a></li>
+			</ul>
+			<div class="sidebar-footer">
+				<div class="col-xs-4">
+					<a href="http://mtl.msky" target="_blank">
+						MTL </a>
+				</div>
+				<div class="col-xs-4">
+					<a
+						href="#"
+						target="_blank"> About </a>
+				</div>
+				<div class="col-xs-4">
+					<a href="#"> Support </a>
+				</div>
+			</div>
+		</div>
+		<!-- End Sidebar -->
 
+		<div id="content-wrapper">
+			<div class="page-content">
 
-<section id="multi-selection" ng-controller="MultiSelection">
-    <div class="page-header">
-        <h1>Multi Selection <small>(options.multiSelect & selected-nodes)</small></h1>
-    </div>
-    <div class="row">
-        <div class="col-md-6 show-grid">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="example-caption">EXAMPLE:</div>
-                    <div save-content="multi-selection-html">
-                        <treecontrol class="tree-classic"
-                                     tree-model="treedata"
-                                     selected-nodes="selectedNodes"
-                                     on-selection="showSelected(node, selected)"
-                                     options="treeOptions">
-                            label: {{node.label}} ({{node.id}})
-                        </treecontrol>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <P>The tree control supports multi-selection using the <code>options.multiSelect</code> option and the <code>selected-nodes</code> attribute (instead of the <code>selected-node</code> attribute in single selection mode).
-                <code>selected-nodes</code> is expected to be an Array which will contain the selected nodes.
-            When using multi-selection, selecting a node adds it to the selected-nodes array and a second click remove it from the array.</p>
-            <div class="row">
-                <div class="col-md-6">
-                    <p>Selected Nodes:</p>
-                    <ul id="multi-selection-listing">
-                        <li ng-repeat="node in selectedNodes">{{node.label}}</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <p>Selection Events:</p>
-                    <ul id="multi-selection-events-listing">
+				<!-- Header Bar -->
+				<div class="row header">
+					<div class="col-xs-12">
+						<div class="user pull-right">
+							<div class="item dropdown" uib-dropdown>
+								<a href="#" class="dropdown-toggle" uib-dropdown-toggle> <img
+									src="img/avatar.jpg">
+								</a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li class="dropdown-header">Username</li>
+									<li class="divider"></li>
+									<li class="link"><a href="#"> Profile </a></li>
+									<li class="link"><a href="#"> Menu Item </a></li>
+									<li class="link"><a href="#"> Menu Item </a></li>
+									<li class="divider"></li>
+									<li class="link"><a href="#"> Logout </a></li>
+								</ul>
+							</div>
+							<div class="item dropdown" uib-dropdown>
+								<a href="#" class="dropdown-toggle" uib-dropdown-toggle> <i
+									class="fa fa-bell-o"></i>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li class="dropdown-header">Notifications</li>
+									<li class="divider"></li>
+									<li><a href="#">Message errors example!</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="meta">
+							<div class="page">Dashboard</div>
+							<div class="breadcrumb-links">Home / Dashboard</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Header Bar -->
 
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <tabset>
-            <tab heading="Markup" >
-                <pre class="code" apply-content="multi-selection-html" highlight-lang="html"></pre>
-            </tab>
-            <tab heading="JavaScript">
-                <pre class="code" apply-content="multi-selection-js" highlight-lang="js"></pre>
-            </tab>
-        </tabset>
-    </div>
-    <script save-content="multi-selection-js">
-        function MultiSelection($scope) {
-            $scope.treeOptions = {multiSelection: true};
-            $scope.treedata=createSubTree(3, 4, "");
-            $scope.selectedNodes = [];
-            $scope.showSelected = function(node, selected) {
-                $("#multi-selection-events-listing").append("<li>"+node.label+ (selected?" selected":" deselected") + "</li>");
-            };
-        }
-    </script>
-</section>
+				<!-- Main Content -->
+				<div ui-view></div>
 
-
-<section id="dirSelection" ng-controller="DirSelection">
-    <div class="page-header">
-        <h1>Clicking Labels Expand & Collapse <small>(options.dirSelectable)</small></h1>
-    </div>
-    <div class="row">
-        <div class="col-md-6 show-grid">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="example-caption">EXAMPLE:</div>
-                    <div save-content="dir-selection-html">
-                        <treecontrol class="tree-classic"
-                                     tree-model="treedata"
-                                     options="opts"
-                                     on-selection="showSelected(node)">
-                            label: {{node.label}} ({{node.id}})
-                        </treecontrol>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <p>In order to prevent selection of branches (folders) in the tree, set the <code>options.dirSelectable</code> to <code>false</code>.
-                Clicking folder labels at this point will expand and contract the node.</p>
-            <p>Selected node: <code>{{selectedNode?selectedNode.label:"N/A"}}</code></p>
-        </div>
-    </div>
-    <div class="row">
-        <tabset>
-            <tab heading="Markup" >
-                <pre class="code" apply-content="dir-selection-html" highlight-lang="html"></pre>
-            </tab>
-            <tab heading="JavaScript">
-                <pre class="code" apply-content="dir-selection-js" highlight-lang="js"></pre>
-            </tab>
-        </tabset>
-    </div>
-    <script save-content="dir-selection-js">
-        function DirSelection($scope) {
-            $scope.treedata=createSubTree(3, 4, "");
-            $scope.opts = {
-                dirSelectable: false
-            };
-            $scope.showSelected = function(sel) {
-                $scope.selectedNode = sel;
-            };
-        }
-    </script>
-</section>
-
-<section id="isSelectable" ng-controller="IsSelectable">
-    <div class="page-header">
-        <h1>Disabling Selection of Nodes <small>(options.isSelectable)</small></h1>
-    </div>
-    <div class="row">
-        <div class="col-md-6 show-grid">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="example-caption">EXAMPLE:</div>
-                    <div save-content="dir-selection-html">
-                        <treecontrol class="tree-classic"
-                                     tree-model="treedata"
-                                     options="opts"
-                                     on-selection="showSelected(node)">
-                            label: {{node.label}} ({{node.id}})
-                        </treecontrol>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <p>To restrict which nodes are selectable on the tree, define the <code>options.isSelectable(node)</code> function.</p>
-            <p>Example disables the selection of any node on or under the <code>Node 1</code> node</p>
-            <p>Selected node: <code>{{selectedNode?selectedNode.label:"N/A"}}</code></p>
-        </div>
-    </div>
-    <div class="row">
-        <tabset>
-            <tab heading="Markup" >
-                <pre class="code" apply-content="dir-selection-html" highlight-lang="html"></pre>
-            </tab>
-            <tab heading="JavaScript">
-                <pre class="code" apply-content="dir-selection-js" highlight-lang="js"></pre>
-            </tab>
-        </tabset>
-    </div>
-    <script save-content="dir-selection-js">
-        function IsSelectable($scope) {
-            $scope.treedata=createSubTree(3, 4, "");
-            $scope.opts = {
-                isSelectable: function(node) {
-                    return node.label.indexOf("Node 1") !== 0;
-                }
-            };
-            $scope.showSelected = function(sel) {
-                $scope.selectedNode = sel;
-            };
-        }
-    </script>
-</section>
-
-
-
-<section id="rightclick" ng-controller="RightClick">
-    <div class="page-header">
-        <h1>Right Click &amp; Context Menu <small>(on-right-click &amp; menu-id)</small></h1>
-
-    </div>
-    <div class="row">
-        <div class="col-md-6 show-grid">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="example-caption">EXAMPLE:</div>
-
-                    <div save-content="rightclick-html">
-                        <treecontrol class="tree-classic"
-                                     tree-model="treedata"
-				     expanded-nodes="expandedNodes"
-                                     on-selection="doSelect(node)"
-				     on-right-click="doRightClick(node)"
-				     menu-id="ctxMenu">
-                            {{node.label}}
-                        </treecontrol>	
-
-			
-                        <ul id="ctxMenu" class="dropdown-menu">
-                          <li><a ng-click="doCook()" 
-                                 ng-class="isLeaf() ? '' : 'disabled'">Cook {{selectedFood.name}}</a></li>
-                          <li class="divider"></li>  
-                          <li><a context-submenu-id="ctxSubMenuOrange"
-				 ng-class="selectedFood.color == 'Orange' ? '' : 'disabled'">Orange...</a></li>
-                          <li><a context-submenu-id="ctxSubMenuGreen"
-				 ng-class="selectedFood.color == 'Green' ? '' : 'disabled'">Green...</a></li>
-                        </ul>
-
-
-                        <ul id="ctxSubMenuOrange" class="dropdown-menu">
-                          <li><a ng-click="doAction('juice' + selectedFood.name)">Juice {{selectedFood.name}}</a></li>
-                          <li><a ng-click="doAction('peel orange food')">Peel Orange Food</a></li>
-                        </ul>
-
-
-                        <ul id="ctxSubMenuGreen" class="dropdown-menu">
-                          <li><a ng-click="doAction('chop' + selectedFood.name)">Chop {{selectedFood.name}}</a></li>
-                          <li><a ng-click="doAction('shred green food')">Shred Green Food</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <p>The angular tree control provides right-click and context menu functionality:
-	      <ul>
-		<li>
-		  <code>on-right-click</code> 
-		  is evaluated as an angular expression (like <code>ng-click</code> value) when
-		  a right-click event is detected.  If context menu is enabled, then this will be
-		  evaluated before the context menu is opened.
-		</li>
-		<li>
-		  <code>menu-id</code> is the <strong>id</strong> for an <code>&lt;ul&gt;</code>
-		  element which will be displayed after a right-click has been detected.
-		</li>
-	      </ul>
-	    </p>
-	    <p>The last right-click was on the <code>{{lastRightClickNode}}</code> node </p>
-	    <p>The last food to be cooked was <code>{{lastCookedFood}}</code></p>
-	    <p>The last context menu action was <code>{{lastAction}}</code></p>
-        </div>
-    </div>
-    <div class="row">
-        <tabset>
-            <tab heading="Markup" >
-                <pre class="code" apply-content="rightclick-html" highlight-lang="html"></pre>
-            </tab>
-            <tab heading="JavaScript">
-                <pre class="code" apply-content="rightclick-js" highlight-lang="js"></pre>
-            </tab>
-        </tabset>
-    </div>
-
-    <script save-content="rightclick-js">
-      function RightClick($scope) {
-        $scope.treedata=[
-            { "label" : "Vegetables", "children" : [
-              { "label": "Vegetable:Carrot (Orange)",  "name" : "Carrot",  "color" : "Orange", "class" : "Vegetable", "children" : [] },
-              { "label": "Vegetable:Cabbbage (Green)", "name" : "Cabbage", "color" : "Green",  "class" : "Vegetable", "children" : [] },
-              { "label": "Vegetable:Potato (Brown)",   "name" : "Potato",  "color" : "Brown",  "class" : "Vegetable", "children" : [] } 
-            ]},
-            { "label" : "Fruit", "children" : [
-              { "label": "Fruit:Apricot (Orange)", "name" : "Apricot", "color" : "Orange", "class" : "Fruit", "children" : [] },
-              { "label": "Fruit:Apple (Red)",      "name" : "Apple",   "color" : "Red",    "class" : "Fruit", "children" : [] },
-              { "label": "Fruit:Grape (Green)",    "name" : "Grape",   "color" : "Green",  "class" : "Fruit", "children" : [] }
-            ]}
-        ];
-        $scope.expandedNodes=[$scope.treedata[0], $scope.treedata[1]];
-
-        $scope.selectedFood = null;
-        $scope.doSelect = function(node) { $scope.selectedFood = node;};
-
-        $scope.lastRightClickNode = null;
-        $scope.doRightClick = function(node) { $scope.lastRightClickNode = node.label; }
-
-        $scope.lastCookedFood = null;
-        $scope.doCook = function() { $scope.lastCookedFood = $scope.selectedFood.name; };
-      
-        $scope.lastAction = null;
-        $scope.doAction = function(cmd) { $scope.lastAction = cmd; };
-
-        $scope.isLeaf = function() { return $scope.selectedFood && $scope.selectedFood.children.length == 0;};
-     }
-    </script>
-</section>
-
-
-
-</div>
-<div class="col-md-3">
-    <ul nav class="nav docs-sidenav">
-        <!--<li class="active"><a href="#as-attribute">classic</a></li>-->
-    </ul>
-</div>
-
-</div>
-<footer class="docs-footer">
-    <p>Designed and built by <a href="http://wix.com">Wix.com</a> team.</p>
-    <p>Code licensed under <a href="https://github.com/angular-ui/bootstrap/blob/master/LICENSE">MIT License</a>.</p>
-    <p>Checkout Wix developer resources <a href="http://dev.wix.com">dev.wix.com</a> and <a href="http://wix.io">wix.io</a>.</p>
-</footer>
-
-<script>
-    var entityMap = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': '&quot;',
-        "'": '&#39;',
-        "/": '&#x2F;'
-    };
-    function escapeHtml(string) {
-        return String(string).replace(/[&<>"'\/]/g, function (s) {
-            return entityMap[s];
-        });
-    }
-    var nonSpace = /\S/;
-    function trimIndent(content) {
-        var lines = content.split("\n");
-        var begin = 0;
-        var end = lines.length-1;
-        while ((nonSpace.exec(lines[begin]) == null) && (begin < lines.length))
-            begin = begin + 1;
-        while ((nonSpace.exec(lines[end]) == null) && end >= begin)
-            end = end - 1;
-        var ident = nonSpace.exec(lines[begin]).index;
-        var formatted = "";
-        for (var i = begin; i <= end; i++) {
-            formatted = formatted + lines[i].slice(ident-1) + ((i < end)?"\n":"");
-        }
-        return formatted;
-    }
-    var example = angular.module("example", ["treeControl", "ui.bootstrap", "template/tabs/tab.html", "template/tabs/tabset.html"])
-                    .factory("$savedContent", function() {
-                        return [];
-                    })
-                    .directive("saveContent", function($savedContent) {
-                        return {
-                            restrict: "A",
-                            compile: function($element, $attrs) {
-                                var content = $element.html();
-                                $savedContent[$attrs.saveContent] = content;
-                            }
-                        }
-                    })
-                    .directive("applyContent", function($savedContent) {
-                        return {
-                            restrict: "EAC",
-                            compile: function($element, $attrs) {
-                                return function($scope, $element, $attrs) {
-                                    var content = $savedContent[$attrs.applyContent];
-                                    var lang = $attrs.highlightLang;
-                                    if (lang == "html")
-                                        content = escapeHtml(content);
-                                    content = trimIndent(content);
-                                    var pre = prettyPrintOne(content, lang);
-                                    $element.html(pre);
-                                }
-                            }
-                        }
-                    })
-                    .directive("nav", function() {
-                        return {
-                            restrict: "A",
-                            compile: function($element) {
-                                var sections = $("section");
-                                angular.forEach(sections, function(section) {
-                                    var $section = $(section);
-                                    var id = $section.attr('id');
-                                    var titleHtml = $section.find("h1").html();
-                                    titleHtml = titleHtml.slice(0, titleHtml.indexOf("<")).trim();
-                                    $element.append("<li><a href='#"+id+"'>"+titleHtml+"</a></li>")
-                                })
-                            }
-                        }
-                    })
-            ;
-    var names = ['Homer', 'Marge', 'Bart', 'Lisa', 'Mo'];
-    function createSubTree(level, width, prefix) {
-        if (level > 0) {
-            var res = [];
-            for (var i=1; i <= width; i++)
-                res.push({ "label" : "Node " + prefix + i, "id" : "id"+prefix + i, "i": i, "children": createSubTree(level-1, width, prefix + i +"."), "name": names[i%names.length] });
-            return res;
-        }
-        else
-            return [];
-    }
-</script>
+			</div>
+			<!-- End Page Content -->
+		</div>
+		<!-- End Content Wrapper -->
+	</div>
+	<!-- End Page Wrapper -->
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/config.js"></script>
+	<script type="text/javascript" src="js/directives/loading.js"></script>
+	<script type="text/javascript" src="js/directives/widget.js"></script>
+	<script type="text/javascript" src="js/directives/widget-body.js"></script>
+	<script type="text/javascript" src="js/directives/widget-header.js"></script>
+	<script type="text/javascript" src="js/directives/widget-footer.js"></script>
+	<!-- put your controller follow -->
+	<script type="text/javascript" src="js/controllers/master-ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/alert-ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/space-ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/page-ctrl.js"></script>
 </body>
 </html>

@@ -1,0 +1,181 @@
+<div data-ng-controller="SpaceCtrl">
+	<div class="row">
+		<div class="col-md-6 show-grid">
+			<div class="panel panel-default">
+				<div class="panel-heading">Master</div>
+				<div class="panel-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label for="masterAddress" class="col-sm-2 control-label">Server
+								Address</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="masterAddress"
+									data-ng-model="master.server"
+									placeholder="http://10.18.xxx.1:9000"
+									autocomplete='masterAddress'>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="masterUser" class="col-sm-2 control-label">Username</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="masterUser"
+									data-ng-model="master.username"
+									placeholder="input the username" autocomplete='username'>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="lastname" class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="password"
+									data-ng-model="master.password" placeholder="Password"
+									autocomplete='current-password'>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										data-ng-model="master.remember">Remember
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">Test
+									Connection</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 show-grid">
+			<div class="panel panel-default">
+				<div class="panel-heading">Target Server</div>
+				<div class="panel-body">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label for="serverAddress" class="col-sm-2 control-label">Server
+								Address</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="serverAddress"
+									data-ng-model="slave.server"
+									placeholder="http://10.18.xxx.1:9000"
+									autocomplete='serverAddress'>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="username" class="col-sm-2 control-label">Username</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="username"
+									data-ng-model="slave.username" placeholder="input the username"
+									autocomplete='username'>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="lastname" class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="password"
+									data-ng-model="slave.password" placeholder="Password"
+									autocomplete='current-password'>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										data-ng-model="master.server">Remember
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">Test</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-sm-offset-5 col-sm-10">
+			<button type="button" class="btn btn-success"
+				data-ng-click="loadSpace(master,slave)">Load Space</button>
+		</div>
+	</div>
+	<div data-ng-show="dataForTheMasterTree.length==0">
+		<span class="label label-warning">three are something wrong
+			when loading data...</span> <br />
+	</div>
+	<div class="row" data-ng-show="dataForTheMasterTree.length>0">
+		<div class="col-md-6 show-grid">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<!-- as an attribute -->
+					<div treecontrol class="tree-classic"
+						tree-model="dataForTheMasterTree"
+						on-selection="showSelected(node, selected)" options="treeOptions"
+						selected-nodes="selectedNodes">{{node.title}} {{node.id}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 show-grid">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<!-- as an attribute -->
+					<!-- Note that the tree does not set the background color. We inject it from the wrapper div. -->
+					<div>
+						<treecontrol class="tree-light" options="opts"
+							tree-model="dataForTheSlaveTree"
+							on-selection="showSelectedNode(node)"> <span
+							ng-switch="" on="node.type"> <span ng-switch-when="space"
+							class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+							<span ng-switch-when="page" class="glyphicon glyphicon-file"
+							aria-hidden="true"></span> <span ng-switch-when="doc"
+							class="glyphicon glyphicon-file" aria-hidden="true"></span>
+						</span> {{node.title}} {{node.id}} </treecontrol>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h3>Sync method</h3></div>
+				<div class="panel-body">
+					<form>
+						<div class="radio">
+							<label><input type="radio" name="optradio" value="1"
+								data-ng-model="syncMethod">Overwrite</label> ,the master content
+							will overwrite the slave's content
+						</div>
+						<div class="radio">
+							<label><input type="radio" name="optradio" value="2"
+								data-ng-model="syncMethod">Merge</label> ,the master and slave
+							content will merge together and keep on both side.
+						</div>
+						<div class="radio">
+							<label><input type="radio" name="optradio" value="3"
+								data-ng-model="syncMethod">Only Delete</label> ,if the master
+							have some content deleted, then those content will be deleted on
+							slave
+						</div>
+						<div class="radio">
+							<label><input type="radio" name="optradio" value="4"
+								data-ng-model="syncMethod">Only Delete</label> ,if the master
+							have some content added, then those part will sync to slave,
+							other changes will not sync
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
